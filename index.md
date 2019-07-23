@@ -1,37 +1,85 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <title>不忘初心 方得始终</title>
+    <style>
+      body {
+        background-color: #1a2a3a;
+      }
+      h1{
+        color:wheat
+      }
+    </style>
+  </head>
+  <body>
 
-You can use the [editor on GitHub](https://github.com/xiaoweiwangg/xiaoweiwangg.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+# jquery版 特效插件 code by erweiwang
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/xiaoweiwangg/xiaoweiwangg.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    <script>
+      //定义动画的类
+      class Animate {
+        //属性构建
+        constructor(opt) {
+          $("body").css({overflow:"hidden"});
+          this.img = `![](${opt.img})`; //img
+          this.fps = opt.fps === 0 ? 1 : (opt.fps / 60 || 1); //fps渲染帧率
+          this.min = opt.min === 0 ? 0 : (opt.min || 15); //图片大小范围
+          this.max = opt.max === 0 ? 0 : (opt.max || 60);
+          this.type = opt.type %= 7 || 1; //大雨小雨
+          this.timing=opt.timing||"linear";
+        }
+        //初始执行 定时器定义在内部 可以防止页面失去焦点返回后导致堆叠执行
+        _init() {
+          setInterval(() => {
+            this.render();
+          }, 1000 / this.type);
+        }
+        //随机值获取
+        getrand(a, b) {
+          return Math.floor(Math.random() * (b - a) + a);
+        }
+        //渲染动画
+        render() {
+          $(this.img)
+            .appendTo($("body"))
+            .css({
+              position: "absolute",
+              width: this.getrand(this.min, this.max),
+              top: this.getrand(-100, -20),
+              Zindex:this.getrand(-10, 20),
+              opacity: this.getrand(0, 10) / 10,
+              left: this.getrand(0, $("body").width())
+            })
+            .animate(
+              {
+                left: this.getrand(0, $("body").width()),
+                top: $(window).height()
+              },
+              this.getrand(7000, 29000) / this.fps,
+              this.timing,
+              function() {
+                $(this).remove();
+              }
+            );
+        }
+      }
+      //动画配置config
+      //                img 你想飘落的图片 下雪
+      //                min,max 可以控制图片大小随机范围 默认(min->15px max->60px)
+      //                fps 可以设置你想要的fps渲染帧率 默认为jquey的(每秒60帧率)
+      //                type 可以设置大小雪(0-7)个级别 默认小雪 1
+      //                timing 设置运动类型 默认linear
+      let config = {
+        type: 1,
+        img:
+          "https://www.58pic.com/index.php?m=show&a=down&im=/original_origin_pic/18/05/19/3227c2dc6fcf9d19f16a5a0294245e6c.png"
+      };
+      let a = new Animate(config);
+      a._init();
+    </script>
+  </body>
+</html>
