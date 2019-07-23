@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+canvas {
+  background-color: #1a2a3a;
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  z-index: -999; }
+
+h1 {
+  color: white; }
+  h1 i {
+    color: rebeccapurple; }
+
