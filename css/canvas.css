@@ -8,8 +8,12 @@ canvas {
   display: block;
   overflow: hidden;
   position: fixed;
-  z-index: -999; }
-
+  z-index: -999;
+  position: absolute;
+}
+a{
+  color:gold;
+}
 h1 {
   color: white; }
   h1 i {
